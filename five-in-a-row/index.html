@@ -133,7 +133,7 @@
         };
         
         var board = [...Array(height)].map(e => Array(width).fill(""));
-        var next = "white_circle";
+        var next = "black_circle";
         var is_ended = false;
 
         function click_box(row, col) {
@@ -155,7 +155,9 @@
                 }
                 if (check_win()) {
                     is_ended = true;
-                    window.alert("win!🥳");
+                    setTimeout(function() {
+                        window.alert("win!🥳");
+                    }, 500);
                     return;
                 }
             } else {
