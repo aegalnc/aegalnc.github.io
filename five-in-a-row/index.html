@@ -132,8 +132,6 @@
             }
         };
         
-            
-       
         var board = [...Array(height)].map(e => Array(width).fill(""));
 
         var next = "white_circle";
@@ -144,6 +142,7 @@
             if (box.classList.contains("white_circle") || box.classList.contains("black_circle")) {
                 window.alert("想下这？👀");
                 window.alert("想得美！🤦");
+                return;
             } else {
                 box.classList.add(next);
                 board[row][col] = next;
