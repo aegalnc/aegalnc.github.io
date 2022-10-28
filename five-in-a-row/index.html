@@ -133,24 +133,33 @@
         };
         
         var board = [...Array(height)].map(e => Array(width).fill(""));
-
         var next = "white_circle";
+        var is_ended = false;
 
         function click_box(row, col) {
-            var box_id = "box_" + row.toString() + "_" + col.toString();
-            var box = document.getElementById(box_id);
-            if (box.classList.contains("white_circle") || box.classList.contains("black_circle")) {
-                window.alert("想下这？👀");
-                window.alert("想得美！🤦");
-                return;
-            } else {
-                box.classList.add(next);
-                board[row][col] = next;
-                if (next == "white_circle") {
-                    next = "black_circle";
+            if (!is_ended) {
+                var box_id = "box_" + row.toString() + "_" + col.toString();
+                var box = document.getElementById(box_id);
+                if (box.classList.contains("white_circle") || box.classList.contains("black_circle")) {
+                    window.alert("想下这？👀");
+                    window.alert("想得美！🤦");
+                    return;
                 } else {
-                    next = "white_circle";
+                    box.classList.add(next);
+                    board[row][col] = next;
+                    if (next == "white_circle") {
+                        next = "black_circle";
+                    } else {
+                        next = "white_circle";
+                    }
                 }
+                if (check_win()) {
+                    is_ended = true;
+                    window.alert("win!🥳");
+                    return;
+                }
+            } else {
+                window.alert("呆瓜，游戏以早就结束了！👀");
             }
 
             function check_win() {
@@ -193,13 +202,6 @@
 
                 return false;
             }
-
-            if (check_win()) {
-                window.alert("win!🥳");
-                return;
-            }
-
-            
         }
     </script>
 </head>
