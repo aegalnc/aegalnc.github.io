@@ -1,13 +1,188 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Library</title>
-</head>
-<body>
-    <a href="five-in-a-row">Five in a Row</a>
-    <a href="tictactoe">Tic-Tac-Toe</a>
-</body>
+<html>
+    <head>
+        <style>
+            .box{
+                height: 40px ;
+                width: 40px ;
+                text-align: center;
+                border-style: solid ;
+                border-color: black;
+                display: inline-block;
+            }
+            .keys{
+                height: 40px;
+                width: 40px;
+            }
+        </style>
+        <script>
+            let width = 4;
+            let height = 4;
+
+            var board = [...Array(height)].map(e => Array(width).fill(0));
+
+            window.onload = function() {
+                for (var row = 0; row < width; row++) {
+                    var row_id = "row_" + row.toString();
+                    document.getElementById("board").innerHTML += '<div id="' + row_id + '"></div>';
+                    for (var col = 0; col < height; col++) {
+                        var box_id = "box_" + row.toString() + "_" + col.toString();
+                        document.getElementById(row_id).innerHTML += '<div class = "box" id = "' + box_id + '" >0</div>';
+                    }
+                }
+
+                let keys = document.getElementById("keys");
+                keys.innerHTML += '<button onclick="click_button(\'up\')">UP</button>';
+                keys.innerHTML += '<button onclick="click_button(\'left\')">LEFT</button>';
+                keys.innerHTML += '<button onclick="click_button(\'down\')">DOWN</button>';
+                keys.innerHTML += '<button onclick="click_button(\'right\')">RIGHT</button>';
+
+                generate_block();
+                generate_block();
+            };
+            let num;
+            function generate_block() {
+                while(true) {
+                    let row = get_random_int(0, width - 1);
+                    let col = get_random_int(0, height - 1);
+
+                    if (board[row][col] === 0) {
+                        num = 2;
+                        board[row][col] = num;
+
+                        var box_id = "box_" + row.toString() + "_" + col.toString();
+                        document.getElementById(box_id).innerHTML = num;
+                        break;
+                    }
+                }
+            }
+
+            function click_button(dir) {
+                if (dir === 'left') {
+                    for (let row = 0; row < height; row++) {
+                        let moved_count = 0;
+                        let added = false;
+                        for (let col = 0; col < width; col++) {
+                            if (board[row][col] !== 0) {
+                                if (board[row][col] === board[row][moved_count - 1] && !added) {
+                                    board[row][moved_count -1] = board[row][col] * 2;
+                                    board[row][col] = 0;
+                                    var box_id = "box_" + row.toString() + "_" + col.toString();
+                                    document.getElementById(box_id).innerHTML = board[row][col];
+                                    box_id = "box_" + row.toString() + "_" + (moved_count - 1 ).toString();
+                                    document.getElementById(box_id).innerHTML = board[row][moved_count -1];
+                                    added = true;
+                                } else {
+                                    let tmp =  board[row][col];
+                                    board[row][col] = board[row][moved_count];
+                                    board[row][moved_count] = tmp;
+                                    var box_id = "box_" + row.toString() + "_" + col.toString();
+                                    document.getElementById(box_id).innerHTML = board[row][col];
+                                    box_id = "box_" + row.toString() + "_" + moved_count.toString();
+                                    document.getElementById(box_id).innerHTML = board[row][moved_count];
+                                    moved_count += 1;
+                                    added = false;
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (dir === 'right') {
+                    for (let row = 0; row < height; row++) {
+                        let moved_count = 0;
+                        let added = false;
+                        for (let col = 3; col >= 0; col--) {
+                            if (board[row][col] !== 0) {
+                                if (board[row][col] === board[row][4 - moved_count] && !added) {
+                                    board[row][4 -moved_count] = board[row][col] * 2;
+                                    board[row][col] = 0;
+                                    var box_id = "box_" + row.toString() + "_" + col.toString();
+                                    document.getElementById(box_id).innerHTML = board[row][col];
+                                    box_id = "box_" + row.toString() + "_" + (4 - moved_count).toString();
+                                    document.getElementById(box_id).innerHTML = board[row][4 - moved_count];
+                                    added = true;
+                                } else {
+                                    let tmp =  board[row][col];
+                                    board[row][col] = board[row][3 - moved_count];
+                                    board[row][3 - moved_count] = tmp;
+                                    var box_id = "box_" + row.toString() + "_" + col.toString();
+                                    document.getElementById(box_id).innerHTML = board[row][col];
+                                    box_id = "box_" + row.toString() + "_" + (3 - moved_count).toString();
+                                    document.getElementById(box_id).innerHTML = board[row][3 - moved_count];
+                                    moved_count += 1;
+                                    added = false;
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (dir === 'up') {
+                    for (let col = 0; col < width; col++) {
+                        let moved_count = 0;
+                        let added = false;
+                        for (let row = 0; row < height; row++) {
+                            if (board[row][col] !== 0) {
+                                if (moved_count >= 1 && board[row][col] === board[moved_count - 1][col] && !added) {
+                                    board[moved_count - 1][col] = board[row][col] * 2;
+                                    board[row][col] = 0;
+                                    var box_id = "box_" + row.toString() + "_" + col.toString();
+                                    document.getElementById(box_id).innerHTML = board[row][col];
+                                    box_id = "box_" + (moved_count - 1).toString() + "_" + col.toString();
+                                    document.getElementById(box_id).innerHTML = board[moved_count -1][col];
+                                    added = true;
+                                } else {
+                                    let tmp =  board[row][col];
+                                    board[row][col] = board[moved_count][col];
+                                    board[moved_count][col] = tmp;
+                                    var box_id = "box_" + row.toString() + "_" + col.toString();
+                                    document.getElementById(box_id).innerHTML = board[row][col];
+                                    box_id = "box_" + moved_count.toString() + "_" + col.toString();
+                                    document.getElementById(box_id).innerHTML = board[moved_count][col];
+                                    moved_count += 1;
+                                    added = false;
+                                    
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    for (let col = 0; col < width; col++) {
+                        let moved_count = 0;
+                        let added = false;
+                        for (let row = 3; row >= 0; row--) {
+                            if (board[row][col] !== 0) {
+                                if (moved_count >= 1 && board[row][col] === board[4 - moved_count][col] && !added) {
+                                    board[4 - moved_count][col] = board[row][col] * 2;
+                                    board[row][col] = 0;
+                                    var box_id = "box_" + row.toString() + "_" + col.toString();
+                                    document.getElementById(box_id).innerHTML = board[row][col];
+                                    box_id = "box_" + (4 - moved_count).toString() + "_" + col.toString();
+                                    document.getElementById(box_id).innerHTML = board[4 - moved_count][col];
+                                    added = true;
+                                } else {
+                                    let tmp =  board[row][col];
+                                    board[row][col] = board[3 - moved_count][col];
+                                    board[3 - moved_count][col] = tmp;
+                                    var box_id = "box_" + row.toString() + "_" + col.toString();
+                                    document.getElementById(box_id).innerHTML = board[row][col];
+                                    box_id = "box_" + (3 - moved_count).toString() + "_" + col.toString();
+                                    document.getElementById(box_id).innerHTML = board[3 - moved_count][col];
+                                    moved_count += 1;
+                                    added = false;
+                                }
+                            }
+                        }
+                    }
+                }
+                generate_block();
+            }
+            function get_random_int(min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+        </script>
+
+    </head>
+    <body>
+        <div id="board"></div>
+        <div id="keys"></div>
+    </body>
 </html>
