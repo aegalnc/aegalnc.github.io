@@ -1,0 +1,30 @@
+h1{
+    font-size: 10ch;
+}
+body {
+    padding :200px;
+    text-align: center;
+    
+}
+.container {
+    height: 20vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.box {
+    height: 2cm;
+    width: 2cm;
+    border: 0.2cm solid black;
+    display: inline-block;
+    margin: 0.2cm;
+}
+.cross {
+    background-image: url("cross.png");
+    background-size: cover;
+}
+.circle {
+    background-image: url("circle.png");
+    background-size: cover;
+}

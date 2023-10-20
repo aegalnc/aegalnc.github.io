@@ -6,80 +6,78 @@
             text-align: center;
         }
        
-        .box{
+        .common{
             height: 0.80cm;
             width: 0.80cm;
             border: 0cm solid black;
             display: inline-block;
-            background-image: url("+.png");
+            background-image: url("common.png");
             background-size: cover;
         }
        
-
-       
-        .a{ height: 0.80cm;
+        .right{ height: 0.80cm;
             width: 0.80cm;
             border: 0cm solid black;
             display: inline-block;
-            background-image: url("shu.png");
+            background-image: url("right.png");
             background-size: cover;
         }
-        .b{ height: 0.80cm;
+        .top{ height: 0.80cm;
             width: 0.80cm;
             border: 0cm solid black;
             display: inline-block;
-            background-image: url("heng.png");
+            background-image: url("top.png");
             background-size: cover;
         }
-        .c{ height: 0.80cm;
+        .top_left{ height: 0.80cm;
             width: 0.80cm;
             border: 0cm solid black;
             display: inline-block;
-            background-image: url("zuoshangjiao.png");
+            background-image: url("top_left.png");
             background-size: cover;
         }
-        .d{ height: 0.80cm;
+        .bottom_left{ height: 0.80cm;
             width: 0.80cm;
             border: 0cm solid black;
             display: inline-block;
-            background-image: url("zuoxiajiao.png");
+            background-image: url("bottom_left.png");
             background-size: cover;
         }
-        .e{ height: 0.80cm;
+        .top_right{ height: 0.80cm;
             width: 0.80cm;
             border: 0cm solid black;
             display: inline-block;
-            background-image: url("youshangjiao.png");
+            background-image: url("top_right.png");
             background-size: cover;
         }
-        .f{ height: 0.80cm;
+        .bottom_right{ height: 0.80cm;
             width: 0.80cm;
             border: 0cm solid black;
             display: inline-block;
-            background-image: url("youxiajiao.png");
+            background-image: url("bottom_right.png");
             background-size: cover;
         }
-        .g{ height: 0.80cm;
+        .bottom{ height: 0.80cm;
             width: 0.80cm;
             border: 0cm solid black;
             display: inline-block;
-            background-image: url("xiaheng.png");
+            background-image: url("bottom.png");
             background-size: cover;
         }
-        .h{ height: 0.80cm;
+        .left{ height: 0.80cm;
             width: 0.80cm;
             border: 0cm solid black;
             display: inline-block;
-            background-image: url("zuoshu.png");
+            background-image: url("left.png");
             background-size: cover;
         }
         
-        .white_circle {
-            background-image: url("white circle.png");
+        .white {
+            background-image: url("white.png");
             background-size: cover;
         }
-        .black_circle {
-            background-image: url("black circle.png");
+        .black {
+            background-image: url("black.png");
             background-size: cover;
         }
     </style>
@@ -96,61 +94,51 @@
                 for (var col = 0; col < width; col++) {
                     var box_id = "box_" + row.toString() + "_" + col.toString();
                     var click_box = "click_box(" + row.toString() + ", " + col.toString() + ")";
-                    row_html.innerHTML += '<div class="box" id="' + box_id + '" onclick="' + click_box + '"></div>';
+                    var class_name;
+                    if (row == 0 && col == 0) {
+                        class_name = 'top_left';
+                    } else if (row == 0 && col == width - 1) {
+                        class_name = 'top_right';
+                    } else if (row == height - 1 && col == 0) {
+                        class_name = 'bottom_left';
+                    } else if (row == height - 1 && col == width - 1) {
+                        class_name = 'bottom_right';
+                    } else if (row == 0) {
+                        class_name = 'top';
+                    } else if (row == height - 1){
+                        class_name = 'bottom';
+                    } else if (col == 0){
+                        class_name = 'left';
+                    } else if (col == width -1){
+                        class_name = 'right';
+                    } else {
+                        class_name = 'common';
+                    }
+                    row_html.innerHTML += '<div class="' + class_name + '" id="' + box_id + '" onclick="' + click_box + '"></div>';
                     var box_html = document.getElementById(box_id);
-                    
-
                 }
-            }
-            document.getElementById("box_0_0").className = "c";
-            document.getElementById("box_0_17").className = "e";
-            document.getElementById("box_17_0").className = "f";
-            document.getElementById("box_17_17").className = "d";
-            for (var col = 1; col < 17; col++) {
-                var row = 0
-                var box_id = "box_" + row.toString() + "_" + col.toString();
-                document.getElementById(box_id).className = "b"
-                
-            }
-            for (var col = 1; col < 17; col++) {
-                var row = 17
-                var box_id = "box_" + row.toString() + "_" + col.toString();
-                document.getElementById(box_id).className = "g"
-                
-            }
-            for (var row = 1; row < 17; row++) {
-                var col = 17
-                var box_id = "box_" + row.toString() + "_" + col.toString();
-                document.getElementById(box_id).className = "h"
-                
-            }
-            for (var row = 1; row < 17;row++) {
-                var col = 0
-                var box_id = "box_" + row.toString() + "_" + col.toString();
-                document.getElementById(box_id).className = "a"
-                
             }
         };
         
         var board = [...Array(height)].map(e => Array(width).fill(""));
-        var next = "black_circle";
+        var next = "black";
         var is_ended = false;
 
         function click_box(row, col) {
             if (!is_ended) {
                 var box_id = "box_" + row.toString() + "_" + col.toString();
                 var box = document.getElementById(box_id);
-                if (box.classList.contains("white_circle") || box.classList.contains("black_circle")) {
+                if (box.classList.contains("white") || box.classList.contains("black")) {
                     window.alert("想下这？👀");
                     window.alert("想得美！🤦");
                     return;
                 } else {
                     box.classList.add(next);
                     board[row][col] = next;
-                    if (next == "white_circle") {
-                        next = "black_circle";
+                    if (next == "white") {
+                        next = "black";
                     } else {
-                        next = "white_circle";
+                        next = "white";
                     }
                 }
                 if (check_win()) {
@@ -165,44 +153,68 @@
             }
 
             function check_win() {
-                for(var row = 0; row < 18; row++){
-                    for (var col = 0;col < 14; col++) {
-                            if (board[row][col] !== "" && board[row][col] === board[row][col + 1] && board[row][col + 1] === board[row][col + 2]
-                            && board[row][col + 2] === board[row][col + 3] && board[row][col + 3] === board[row][col + 4] 
-                            ) 
-                                return true;
-                    }
-                   
-                }
-                for( col = 0; col < 18; col++){
-                    for (var row = 0;row < 14; row++) {
-                            if (board[row][col] !== "" && board[row][col] === board[row + 1][col] && board[row + 2][col] === board[row + 3][col]
-                            && board[row + 1][col] === board[row + 2][col] && board[row + 3][col] === board[row + 4][col] 
-                            ) 
-                                return true;
-                    }
-                   
-                }
-                for( col = 0; col < 18; col++){
-                    for (var row = 0;row < 14; row++) {
-                            if (board[row][col] !== "" && board[row][col] === board[row + 1][col + 1] && board[row + 2][col + 2] === board[row + 3][col + 3]
-                            && board[row + 1][col + 1] === board[row + 2][col + 2] && board[row + 3][col + 3] === board[row + 4][col + 4] 
-                            ) 
-                                return true;
-                    }
-                   
-                }
-                for( col = 0; col < 14; col++){
-                    for (var row = 4;row < 18; row++) {
-                            if (board[row][col] !== "" && board[row][col] === board[row - 1][col + 1] && board[row - 2][col + 2] === board[row - 3][col + 3]
-                            && board[row - 1][col + 1] === board[row - 2][col + 2] && board[row - 3][col + 3] === board[row - 4][col + 4] 
-                            ) 
-                                return true;
-                    }
-                   
-                }
+                function check_win() {
+                    let previous_color = "";
+                    let same_color_count = 0;
 
-                return false;
+                    // 横向检查
+                    for (let row = 0; row < height; row++) {
+                        for (let col = 0; col < width; col++) {
+                            if (board[row][col] == previous_color) {
+                                // 与上一个遍历的格子颜色相同，计数器 + 1
+                                same_color_count += 1;
+                            } else {
+                                // 与上一个遍历的格子颜色不同，计数器重置为 1
+                                previous_color = board[row][col];
+                                same_color_count = 1;
+                            }
+
+                            // 如果计数器达到 5，且颜色不为空，说明连成五子
+                            if (same_color_count == 5 && previous_color != "") {
+                                return true;
+                            }
+                        }
+
+                        // 重置计数器
+                        previous_color = "";
+                        same_color_count = 0;
+                    }
+
+                    // 纵向检查
+                    for (let col = 0; col < width; col++) {
+                        for (let row = 0; row < height; row++) {
+                            if (board[row][col] == previous_color) {
+                                same_color_count += 1;
+                            } else {
+                                previous_color = board[row][col];
+                                same_color_count = 1;
+                            }
+
+                            if (same_color_count == 5 && previous_color != "") {
+                                return true;
+                            }
+                        }
+
+                        previous_color = "";
+                        same_color_count = 0;
+                    }
+
+                    // 左上到右下检查
+                    for (let row = 0; row < width - 1; row++) {
+                        let col = 0;
+                        col += 1;
+                        if (board[row][col] === previous_color) {
+                            same_color_count = same_color_count + 1;
+                        } else {
+                            same_color_count = 0;
+                        }
+                        previous_color = board[row][col];
+                        if (same_color_count === 5 && previous_color != "") {
+                           return true;
+                        }
+                    }
+                    return false;
+                }
             }
         }
     </script>
